@@ -1,0 +1,27 @@
+rm -rf <%= installed_directory %>
+#wget http://downloads.mongodb.org/linux/mongodb-linux-<%= server %>-<%= version %>.tgz
+tar -zxvf mongodb-linux-<%= server %>-<%= version %>.tgz
+mv mongodb-linux-<%= server %>-<%= version %> <%= installed_directory %>
+#rm mongodb-linux-<%= server %>-<%= version %>.tgz
+
+# set mongodb data directory
+mkdir -p <%= data_directory %>
+touch <%= log_file %>
+mkdir -p <%= config_directory %>
+
+# copy basic control script
+cp <%= temp_start_file %> <%= start_file %>
+cp <%= temp_stop_file %> <%= stop_file %>
+cp <%= temp_config_file %> <%= config_file %>
+chmod +r+x <%= start_file %>
+chmod +r+x <%= stop_file %>
+chmod +r <%= config_file %>
+
+# copy script in /etc/init.d
+cp <%= temp_init_file %> /etc/init.d/mongodb
+chmod +x /etc/init.d/mongodb
+/usr/sbin/update-rc.d -f mongodb defaults
+
+# create mongodb user
+adduser --system --no-create-home --disabled-login --disabled-password --group mongodb
+chown mongodb:mongodb -R <%= data_directory %>
