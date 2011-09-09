@@ -4,4 +4,7 @@ module Installer
   autoload :Mongodb,  'installer/mongodb/mongodb'
 end
 
-load File.expand_path(File.join(File.dirname(__FILE__), '../tasks/mongodb/mongodb.rake'))
+# load rake scripts
+Dir.glob(File.expand_path(File.join(File.dirname(__FILE__), '../tasks/mongodb/*.rake'))) do |c|
+  load c
+end
