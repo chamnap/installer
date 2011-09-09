@@ -1,9 +1,9 @@
 rm -rf <%= installed_directory %>
-rm mongodb-linux-<%= server %>-<%= version %>.tgz
-wget http://downloads.mongodb.org/linux/mongodb-linux-<%= server %>-<%= version %>.tgz
+#rm mongodb-linux-<%= server %>-<%= version %>.tgz
+#wget http://downloads.mongodb.org/linux/mongodb-linux-<%= server %>-<%= version %>.tgz
 tar -zxvf mongodb-linux-<%= server %>-<%= version %>.tgz
 mv mongodb-linux-<%= server %>-<%= version %> <%= installed_directory %>
-rm mongodb-linux-<%= server %>-<%= version %>.tgz
+#rm mongodb-linux-<%= server %>-<%= version %>.tgz
 
 # set mongodb data directory
 mkdir -p <%= data_directory %>
@@ -29,3 +29,5 @@ chown mongodb:mongodb -R <%= data_directory %>
 
 # create symlink
 ln -sf <%= bin_directory %>/mongo /usr/local/bin/mongo
+
+echo "Install mongodb sucessfully..."

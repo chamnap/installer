@@ -57,8 +57,12 @@ module Installer
       `uname -a`.include?("i686") ? "i686" : "x86_64"
     end
     
-    def run
-      system "#{parse_template('mongodb-install')}"
+    def install
+      system parse_template('mongodb-install')
+    end
+    
+    def purge
+      system parse_template('mongodb-purge')
     end
     
     def get_binding

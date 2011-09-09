@@ -1,0 +1,5 @@
+rm -rf <%= installed_directory %>
+rm -rf /usr/local/bin/mongo
+rm -rf /etc/init.d/mongodb
+
+echo "Purge Mongodb successfully.."
