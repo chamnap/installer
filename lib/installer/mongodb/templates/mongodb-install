@@ -1,8 +1,8 @@
 rm -rf <%= installed_directory %>
-#wget http://downloads.mongodb.org/linux/mongodb-linux-<%= server %>-<%= version %>.tgz
+wget http://downloads.mongodb.org/linux/mongodb-linux-<%= server %>-<%= version %>.tgz
 tar -zxvf mongodb-linux-<%= server %>-<%= version %>.tgz
 mv mongodb-linux-<%= server %>-<%= version %> <%= installed_directory %>
-#rm mongodb-linux-<%= server %>-<%= version %>.tgz
+rm mongodb-linux-<%= server %>-<%= version %>.tgz
 
 # set mongodb data directory
 mkdir -p <%= data_directory %>

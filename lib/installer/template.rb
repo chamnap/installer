@@ -1,9 +1,27 @@
 require 'erb'
 
 module Installer
-  class Template
-    def self.parse(filename, data)
-      ERB.new(File.read(filename)).result(data.get_binding)
+  module Template
+    def parse(filename)
+      ERB.new(File.read(filename)).result(self.get_binding)
+    end
+    
+    def parse_template(template_filename)
+      parse(template_path(template_filename))
+    end
+    
+    def write_tempfile(template_filename)
+      content = parse_template(template_filename)
+      
+      file = Tempfile.new(template_filename)
+      file.write(content)
+      file.close
+      file.path
+    end
+    
+    private
+    def template_path(template_filename)
+      File.expand_path(File.join(File.dirname(__FILE__), self.class.name.split("::").last.downcase, "templates", template_filename))
     end
   end
 end

@@ -1,5 +1,6 @@
 module Installer
   class Mongodb
+    include Template
     attr_accessor :version, :installed_directory, :data_directory
     
     def initialize(hash)
@@ -37,19 +38,19 @@ module Installer
     end
     
     def temp_start_file
-      temp_file("mongodb-start")
+      write_tempfile("mongodb-start")
     end
     
     def temp_stop_file
-      temp_file("mongodb-stop")
+      write_tempfile("mongodb-stop")
     end
     
     def temp_init_file
-      temp_file("mongodb-init")
+      write_tempfile("mongodb-init")
     end
     
     def temp_config_file
-      temp_file('mongodb.conf')
+      write_tempfile('mongodb.conf')
     end
     
     def server
@@ -62,25 +63,6 @@ module Installer
     
     def get_binding
       binding
-    end
-    
-    private
-    def template_path(template_file)
-      File.expand_path(File.join(File.dirname(__FILE__), "templates", template_file))
-    end
-    
-    def temp_file(template_file)
-      content = parse_template(template_file)
-      
-      file = Tempfile.new(template_file)
-      file.write(content)
-      file.close
-      file.path
-    end
-    
-    def parse_template(template_file)
-      p template_file
-      Installer::Template.parse(template_path(template_file), self)
     end
   end
 end
