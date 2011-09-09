@@ -14,17 +14,16 @@ describe Installer::Template do
   
   it "should be able to parse the template file" do
     class A
-      class << self
-        def name
-          "Chamnap"
-        end
-        
-        def get_binding
-          binding
-        end
+      include Installer::Template
+      def name
+        "Chamnap"
+      end
+      
+      def get_binding
+        binding
       end
     end
     
-    Installer::Template.parse(@file.path, A).should eql("Hello Chamnap!")
+    A.new.parse(@file.path).should eql("Hello Chamnap!")
   end
 end
