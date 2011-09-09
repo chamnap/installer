@@ -1,0 +1,5 @@
+/etc/init.d/memcached stop
+rm /usr/local/bin/memcached
+rm /etc/init.d/memcached
+
+echo "Purge memcached sucessfully..."

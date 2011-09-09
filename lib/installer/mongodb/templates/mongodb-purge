@@ -1,3 +1,4 @@
+/etc/init.d/mongodb stop
 rm -rf <%= installed_directory %>
 rm -rf /usr/local/bin/mongo
 rm -rf /etc/init.d/mongodb

@@ -1,0 +1,27 @@
+# install libevent
+apt-get install -y libsasl2-dev libevent-dev
+
+# download and install from source
+rm <%= installed_directory %>
+rm memcached-<%= version %>.tar.gz
+wget http://memcached.googlecode.com/files/memcached-<%= version %>.tar.gz
+tar -zxvf memcached-<%= version %>.tar.gz
+cd memcached-<%= version %>
+./configure --enable-sasl
+make
+make install
+
+# copy basic control script
+mkdir -p <%= bin_directory %>
+mkdir -p <%= config_directory %>
+cp <%= temp_start_file %> <%= start_file %>
+cp <%= temp_config_file %> <%= config_file %>
+chmod +r+x <%= start_file %>
+chmod +r <%= config_file %>
+
+# copy script in /etc/init.d
+cp <%= temp_init_file %> /etc/init.d/memcached
+chmod +x /etc/init.d/memcached
+/usr/sbin/update-rc.d -f memcached defaults
+
+echo "Install memcached sucessfully..."

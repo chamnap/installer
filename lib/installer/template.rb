@@ -21,7 +21,6 @@ module Installer
     end
     
     def parse_template(template_filename)
-      p "-------"
       parse(template_path(template_filename))
     end
   end
