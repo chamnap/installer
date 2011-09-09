@@ -3,16 +3,6 @@ require 'installer/template'
 
 describe Installer::Template do
   before(:all) do
-    @file = Tempfile.new('foo')
-    @file.write("Hello <%= name %>!")
-    @file.close
-  end
-  
-  after(:all) do
-    @file.unlink
-  end
-  
-  it "should be able to parse the template file" do
     class A
       include Installer::Template
       def name
@@ -24,6 +14,25 @@ describe Installer::Template do
       end
     end
     
-    A.new.parse(@file.path).should eql("Hello Chamnap!")
+    @template_file = Tempfile.new('foo')
+    @template_file.write("Hello <%= name %>!")
+    @template_file.rewind
+  end
+  
+  after(:all) do
+    @template_file.close
+    @template_file.unlink
+  end
+  
+  it "should parse the template file" do
+    A.new.parse(@template_file.path).should eql("Hello Chamnap!")
+  end
+  
+  it "should write content to the temp file when passing template file" do
+    a = A.new
+    a.stub(:parse_template).and_return a.parse(@template_file.path)
+    tempfile_path = a.write_tempfile(@template_file.path)
+    
+    File.read(tempfile_path).should == "Hello Chamnap!"
   end
 end

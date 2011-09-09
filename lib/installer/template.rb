@@ -6,10 +6,6 @@ module Installer
       ERB.new(File.read(filename)).result(self.get_binding)
     end
     
-    def parse_template(template_filename)
-      parse(template_path(template_filename))
-    end
-    
     def write_tempfile(template_filename)
       content = parse_template(template_filename)
       
@@ -22,6 +18,11 @@ module Installer
     private
     def template_path(template_filename)
       File.expand_path(File.join(File.dirname(__FILE__), self.class.name.split("::").last.downcase, "templates", template_filename))
+    end
+    
+    def parse_template(template_filename)
+      p "-------"
+      parse(template_path(template_filename))
     end
   end
 end
