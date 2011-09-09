@@ -26,3 +26,6 @@ chmod +x /etc/init.d/mongodb
 # create mongodb user
 adduser --system --no-create-home --disabled-login --disabled-password --group mongodb
 chown mongodb:mongodb -R <%= data_directory %>
+
+# create symlink
+ln -sf <%= bin_directory %>/mongo /usr/local/bin/mongo
