@@ -1,9 +1,7 @@
-require "installer/version"
-require 'installer/template'
-require 'installer/mongodb/mongodb'
-load '/var/www/installer/tasks/mongodb/mongodb.rake'
-
 module Installer
-  #auto_load :Mongodb, 'mongodb/mongodb'
-  #auto_load :Template, 'mongodb/template'
+  autoload :VERSION,  'installer/version'
+  autoload :Template, 'installer/template'
+  autoload :Mongodb,  'installer/mongodb/mongodb'
 end
+
+load File.expand_path(File.join(File.dirname(__FILE__), '../tasks/mongodb/mongodb.rake'))
