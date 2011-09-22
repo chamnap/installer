@@ -1,22 +1,16 @@
 rm -rf <%= installed_directory %>
-#rm mongodb-linux-<%= server %>-<%= version %>.tgz
-#wget http://downloads.mongodb.org/linux/mongodb-linux-<%= server %>-<%= version %>.tgz
+rm mongodb-linux-<%= server %>-<%= version %>.tgz
+wget http://downloads.mongodb.org/linux/mongodb-linux-<%= server %>-<%= version %>.tgz
 tar -zxvf mongodb-linux-<%= server %>-<%= version %>.tgz
 mv mongodb-linux-<%= server %>-<%= version %> <%= installed_directory %>
-#rm mongodb-linux-<%= server %>-<%= version %>.tgz
+rm mongodb-linux-<%= server %>-<%= version %>.tgz
 
 # set mongodb data directory
 mkdir -p <%= data_directory %>
-touch <%= log_file %>
+mkdir -p <%= log_directory %>
 mkdir -p <%= config_directory %>
-
-# copy basic control script
-cp <%= temp_start_file %> <%= start_file %>
-cp <%= temp_stop_file %> <%= stop_file %>
-cp <%= temp_config_file %> <%= config_file %>
-chmod +r+x <%= start_file %>
-chmod +r+x <%= stop_file %>
-chmod +r <%= config_file %>
+touch <%= log_file %>
+chown mongodb:mongodb <%= log_file %>
 
 # copy script in /etc/init.d
 cp <%= temp_init_file %> /etc/init.d/mongodb
@@ -29,5 +23,6 @@ chown mongodb:mongodb -R <%= data_directory %>
 
 # create symlink
 ln -sf <%= bin_directory %>/mongo /usr/local/bin/mongo
+ln -sf <%= bin_directory %>/mongod /usr/local/bin/mongod
 
 echo "Install mongodb sucessfully..."

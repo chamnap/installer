@@ -1,4 +1,5 @@
 require 'erb'
+require 'tempfile'
 
 module Installer
   module Template
