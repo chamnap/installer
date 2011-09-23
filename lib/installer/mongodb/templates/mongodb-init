@@ -91,7 +91,6 @@ DAEMON_OPTS=${DAEMON_OPTS:-"--dbpath $DATA --logpath $LOGFILE run"}
 
 set -e
 
-
 running_pid() {
 # Check if a given process pid's cmdline matches a given name
     pid=$1
@@ -117,21 +116,44 @@ running() {
 
 start_server() {
 # Start the process using the wrapper
+        if [ -z "$DAEMONUSER" ] ; then
+            start-stop-daemon --background --start --quiet --pidfile $PIDFILE \
+                        --make-pidfile --exec $DAEMON -- $DAEMON_OPTS
+            errcode=$?
+        else
+# if we are using a daemonuser then change the user id
             start-stop-daemon --background --start --quiet --pidfile $PIDFILE \
                         --make-pidfile --chuid $DAEMONUSER \
                         --exec $DAEMON -- $DAEMON_OPTS
             errcode=$?
+        fi
 	return $errcode
 }
 
 stop_server() {
 # Stop the process using the wrapper
+        if [ -z "$DAEMONUSER" ] ; then
+            start-stop-daemon --stop --quiet --pidfile $PIDFILE
+            rm $PIDFILE
+            errcode=$?
+        else
+# if we are using a daemonuser then look for process that match
             start-stop-daemon --stop --quiet --pidfile $PIDFILE \
-                        --retry 300 \
                         --user $DAEMONUSER \
                         --exec $DAEMON
+            rm $PIDFILE
             errcode=$?
+        fi
+
 	return $errcode
+}
+
+reload_server() {
+    [ ! -f "$PIDFILE" ] && return 1
+    pid=pidofproc $PIDFILE # This is the daemon's pid
+    # Send a SIGHUP
+    kill -USR1 $pid
+    return $?
 }
 
 force_stop() {
@@ -152,7 +174,6 @@ force_stop() {
 	fi
 	rm -f $PIDFILE
 }
-
 
 case "$1" in
   start)

@@ -9,6 +9,10 @@ module Installer
       end
     end
     
+    def bin_directory
+      installed_directory + "/bin"
+    end
+    
     def config_directory
       installed_directory + "/config"
     end

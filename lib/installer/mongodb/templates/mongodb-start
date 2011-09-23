@@ -1,5 +1,0 @@
-#!/bin/sh
-
-<%= bin_file %> --config <%= config_file %> \
-## --upgrade \ ##runs a database upgrade option if needed \
-
